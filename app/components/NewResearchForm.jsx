@@ -19,11 +19,14 @@ export default function NewResearchForm() {
         New Research
       </h3>
       <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="bg-white rounded-2xl shadow-xl p-2 border border-gray-200 flex items-center">
+        <div className="relative">
+          {/* Gradient shadow background */}
+          <div className="absolute inset-0 bg-gradient-to-r from-teal-500 to-indigo-500 rounded-lg blur-md opacity-30 translate-x-1 translate-y-1"></div>
+
           <textarea
             id="research-description"
             rows={6}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent resize-none placeholder:text-gray-400 text-gray-700"
+            className="relative w-full px-4 py-3 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent resize-none placeholder:text-gray-400 text-gray-700"
             placeholder="Describe your research topic, hypothesis, or area of interest in pharmaceutical or biotechnology..."
             value={researchDescription}
             onChange={(e) => setResearchDescription(e.target.value)}
