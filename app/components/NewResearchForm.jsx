@@ -1,5 +1,6 @@
+"use client";
 import { useState } from "react";
-import { IconSearch, IconPill, IconBrain } from "@tabler/icons-react";
+import { IconSearch } from "@tabler/icons-react";
 
 export default function NewResearchForm() {
   const [researchDescription, setResearchDescription] = useState("");
