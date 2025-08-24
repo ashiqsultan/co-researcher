@@ -1,8 +1,8 @@
 import airtable from "airtable";
 import { v4 as uuidv4 } from "uuid";
 
-const AIRTABLE_API_KEY =
-  "patLdOkRITEyu76dy.049bab9f22775e845f7a9d4e8d28ca107fb02d1b3ace2ebf1da2ee6193297dd9";
+const AIRTABLE_API_KEY = process.env.AIRTABLE_API_KEY;
+
 const BASE_ID = "appi3yUWs2ImoeWm2";
 
 // Configure Airtable
@@ -17,6 +17,7 @@ const tempFields = {
   researchId: uuidv4(),
   description: "This is a test description",
   status: "processing",
+  isValid: true,
 };
 
 /**
