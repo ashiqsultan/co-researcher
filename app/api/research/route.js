@@ -1,6 +1,6 @@
 "use server";
 import { v4 as uuidv4 } from "uuid";
-import { createRecord } from "@/app/utils/airtable_helpers";
+import { createRecord } from "@/app/helpers/research/create";
 
 export async function POST(request) {
   try {

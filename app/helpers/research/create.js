@@ -1,7 +1,5 @@
 import { table } from "./airtable_config.js";
 
-
-
 export async function createRecord(researchId, description) {
   try {
     const record = await table.create([
