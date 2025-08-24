@@ -1,5 +1,4 @@
 import airtable from "airtable";
-import { v4 as uuidv4 } from "uuid";
 
 const AIRTABLE_API_KEY = process.env.AIRTABLE_API_KEY;
 
@@ -14,23 +13,21 @@ const base = airtable.base(BASE_ID);
 const table = base("research-table");
 
 const tempFields = {
-  researchId: uuidv4(),
   description: "This is a test description",
   status: "processing",
   isValid: true,
 };
 
-/**
- * Create a new record in the specified Airtable table
- * @param {string} tableName - The name of the table to create the record in
- * @param {Object} fields - The fields and values for the new record
- * @returns {Promise<Object>} - The created record
- */
-export async function createRecord(fields) {
+export async function createRecord(researchId, description) {
   try {
     const record = await table.create([
       {
-        fields: tempFields,
+        fields: {
+          researchId,
+          description,
+          status: "processing",
+          isValid: false,
+        },
       },
     ]);
 

@@ -1,4 +1,5 @@
 "use server";
+import { v4 as uuidv4 } from "uuid";
 import { createRecord } from "@/app/utils/airtable_helpers";
 
 export async function POST(request) {
@@ -11,11 +12,15 @@ export async function POST(request) {
       timestamp: new Date().toISOString(),
     });
 
-    await createRecord({});
+    const researchId = uuidv4();
+    const description = researchDescription;
+    await createRecord(researchId, description);
 
     return Response.json({
       success: true,
-      message: "Research submission received successfully",
+      message: "Research submission received",
+      researchDescription,
+      researchId,
     });
   } catch (error) {
     console.error("Error processing research submission:", error);
