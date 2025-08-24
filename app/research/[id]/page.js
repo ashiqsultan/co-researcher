@@ -3,15 +3,27 @@ import { cleanMarkdownString } from "../../utils/cleanmarkdown.js";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import "github-markdown-css/github-markdown-light.css";
+import markdownit from "markdown-it";
+
+function removeStrongTags(text) {
+  // Replace both opening and closing <strong> tags with empty strings
+  return text.replace(/<\/?strong>/g, "");
+}
 
 const SingleResearch = async ({ params }) => {
   const { id } = params;
   const result = await getResearchByResearchId(id);
 
+  const md = markdownit();
+
   // Clean the markdown result if it exists
   let cleanedResult = result?.data?.[0]?.result
     ? cleanMarkdownString(result.data[0].result)
     : "";
+
+  const markdown = md.renderInline(cleanedResult);
+
+  const markdownreplaced = removeStrongTags(markdown);
 
   return (
     <div className="max-w-4xl mx-auto p-6">
@@ -21,7 +33,7 @@ const SingleResearch = async ({ params }) => {
             <div className="bg-white border rounded-lg p-6 prose">
               <div className="markdown-body">
                 <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                  {cleanedResult}
+                  {markdownreplaced}
                 </ReactMarkdown>
               </div>
             </div>
