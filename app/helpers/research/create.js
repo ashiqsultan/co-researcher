@@ -1,22 +1,6 @@
-import airtable from "airtable";
+import { table } from "./airtable_config.js";
 
-const AIRTABLE_API_KEY = process.env.AIRTABLE_API_KEY;
 
-const BASE_ID = "appi3yUWs2ImoeWm2";
-
-// Configure Airtable
-airtable.configure({
-  apiKey: AIRTABLE_API_KEY,
-});
-
-const base = airtable.base(BASE_ID);
-const table = base("research-table");
-
-const tempFields = {
-  description: "This is a test description",
-  status: "processing",
-  isValid: true,
-};
 
 export async function createRecord(researchId, description) {
   try {
