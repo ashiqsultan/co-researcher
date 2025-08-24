@@ -5,12 +5,30 @@ import { IconSearch } from "@tabler/icons-react";
 export default function NewResearchForm() {
   const [researchDescription, setResearchDescription] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // TODO: Implement AI research functionality
-    console.log("Research description:", researchDescription);
-    // This would typically trigger the AI research process
-    // and navigate to a results page
+    
+    try {
+      const response = await fetch('/api/research', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ researchDescription }),
+      });
+      
+      const data = await response.json();
+      
+      if (data.success) {
+        console.log("Research submitted successfully:", data.message);
+        // TODO: Navigate to results page or show success message
+        setResearchDescription(""); // Clear the form
+      } else {
+        console.error("Failed to submit research:", data.message);
+      }
+    } catch (error) {
+      console.error("Error submitting research:", error);
+    }
   };
 
   return (
