@@ -1,3 +1,4 @@
+export const revalidate = 60 * 2;
 import { getCompletedResearch } from "../helpers/research/getAll.js";
 
 const AllResearch = async () => {
