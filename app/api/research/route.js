@@ -1,6 +1,7 @@
 "use server";
 import { v4 as uuidv4 } from "uuid";
 import { createRecord } from "@/app/helpers/research/create";
+import { getCompletedResearch } from "@/app/helpers/research/getAll";
 
 export async function POST(request) {
   try {
@@ -26,6 +27,35 @@ export async function POST(request) {
     console.error("Error processing research submission:", error);
     return Response.json(
       { success: false, message: "Failed to process research submission" },
+      { status: 500 }
+    );
+  }
+}
+
+export async function GET() {
+  try {
+    const result = await getCompletedResearch();
+
+    if (result.success) {
+      return Response.json({
+        success: true,
+        count: result.count,
+        data: result.data,
+      });
+    } else {
+      return Response.json(
+        {
+          success: false,
+          message: "Failed to fetch completed research",
+          error: result.error,
+        },
+        { status: 500 }
+      );
+    }
+  } catch (error) {
+    console.error("Error fetching completed research:", error);
+    return Response.json(
+      { success: false, message: "Failed to fetch completed research" },
       { status: 500 }
     );
   }
