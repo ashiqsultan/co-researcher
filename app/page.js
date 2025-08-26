@@ -72,7 +72,7 @@ export default function Home() {
               Biotechnology
             </p>
             <p className="text-gray-500 text-sm mt-2">
-              © 2024 Co-Researcher. All rights reserved.
+              © 2025 Co-Researcher. All rights reserved.
             </p>
           </div>
         </div>
