@@ -19,7 +19,7 @@ export default function Home() {
                   Co-Researcher
                 </h1>
                 <p className="text-sm text-gray-600">
-                  AI-Powered Research Assistant
+                  Smarter Web Research, Powered by AI
                 </p>
               </div>
             </div>
@@ -57,26 +57,6 @@ export default function Home() {
         {/* Previous Research Section */}
         <RecentResearch />
       </main>
-
-      {/* Footer */}
-      <footer className="bg-gray-900 text-white mt-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="text-center">
-            <div className="flex justify-center mb-4">
-              <div className="p-2 bg-gradient-to-r from-teal-600 to-sky-600 rounded-lg">
-                <IconMicroscope className="h-6 w-6 text-white" />
-              </div>
-            </div>
-            <p className="text-gray-400">
-              Co-Researcher - AI-Powered Research Assistant for Pharmaceutical &
-              Biotechnology
-            </p>
-            <p className="text-gray-500 text-sm mt-2">
-              © 2025 Co-Researcher. All rights reserved.
-            </p>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }

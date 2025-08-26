@@ -1,4 +1,9 @@
 import { Geist, Geist_Mono } from "next/font/google";
+import {
+  IconBrandGithub,
+  IconBrandLinkedin,
+  IconMicroscope,
+} from "@tabler/icons-react";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -23,7 +28,55 @@ export default function RootLayout({ children }) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {children}
+        <Footer />
       </body>
     </html>
+  );
+}
+
+function Footer() {
+  return (
+    <footer className="bg-gray-900 text-white mt-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="text-center">
+          <div className="flex justify-center mb-4">
+            <div className="p-2 bg-gradient-to-r from-teal-600 to-sky-600 rounded-lg">
+              <IconMicroscope className="h-6 w-6 text-white" />
+            </div>
+          </div>
+          <p className="text-gray-400">
+            Co-Researcher | Smarter Web Research, Powered by AI
+          </p>
+          <p className="text-gray-500 text-sm mt-2">
+            © 2025 Co-Researcher. All rights reserved.
+          </p>
+          <div className="mx-auto flex max-w-5xl items-center justify-center gap-6 text-sm text-gray-600 mt-4">
+            <a
+              href="https://github.com/ashiqsultan/co-researcher"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 hover:text-white text-white"
+              aria-label="GitHub repository"
+            >
+              <IconBrandGithub size={20} />
+              <span>GitHub</span>
+            </a>
+            <span aria-hidden className="text-gray-600">
+              •
+            </span>
+            <a
+              href="https://linkedin.com/in/ashiq-sultan/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 hover:text-white text-white"
+              aria-label="LinkedIn profile"
+            >
+              <IconBrandLinkedin size={20} />
+              <span>LinkedIn</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </footer>
   );
 }
