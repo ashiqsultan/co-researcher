@@ -182,7 +182,7 @@ export default function ResearchAllPage() {
 
           <div className="mt-4 flex items-center gap-4">
             <span className="text-sm text-gray-500">
-              Showing Recent 50 items
+              Showing 100 recent items
             </span>
           </div>
         </div>

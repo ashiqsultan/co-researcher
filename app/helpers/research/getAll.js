@@ -35,8 +35,17 @@ export async function getResearchByStatus(status) {
   try {
     const records = await table
       .select({
-        filterByFormula: `{status} = '${status}'`,
+        filterByFormula: `AND({status} = '${status}', {isValid} = 1)`,
         sort: [{ field: "createdAt", direction: "desc" }],
+        fields: [
+          "researchId",
+          "title",
+          "description",
+          "status",
+          "createdAt",
+          "isValid",
+        ],
+        maxRecords: 100,
       })
       .all();
 
@@ -56,10 +65,6 @@ export async function getResearchByStatus(status) {
       error: error.message,
     };
   }
-}
-
-export async function getValidResearch() {
-  return getResearchByStatus("valid");
 }
 
 export async function getCompletedResearch() {
