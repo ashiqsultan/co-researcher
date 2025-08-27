@@ -36,7 +36,7 @@ export default function RecentResearch() {
       </h3>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {previousResearch.map((research) => (
-          <ResearchItem key={research.id} research={research} />
+          <ResearchItem key={research.researchId} research={research} />
         ))}
       </div>
     </div>
