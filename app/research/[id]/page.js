@@ -1,12 +1,12 @@
 "use client";
-
 import React from "react";
 import { cleanMarkdownString } from "../../utils/cleanmarkdown.js";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
 import "github-markdown-css/github-markdown-light.css";
 import markdownit from "markdown-it";
 import useApiQuery from "../../hooks/useApiQuery";
+import ResultMarkdown from "../../components/ResultMarkdown";
+import ErrorCard from "../../components/ErrorCard";
+import ProcessingCard from "../../components/ProcessingCard.jsx";
 
 function removeStrongTags(text) {
   // Replace both opening and closing <strong> tags with empty strings
@@ -16,30 +16,21 @@ function removeStrongTags(text) {
 const SingleResearch = ({ params }) => {
   const unwrappedParams = React.use(params);
   const { id } = unwrappedParams;
-  const { data: result, isLoading, error } = useApiQuery(`/api/research/${id}`);
+  const {
+    data: responseData,
+    isLoading,
+    error,
+  } = useApiQuery(`/api/research/${id}`);
 
   const md = markdownit();
-
-  // Clean the markdown result if it exists
-  let cleanedResult = result?.data?.[0]?.result
-    ? cleanMarkdownString(result.data[0].result)
-    : "";
-
-  const markdown = md.renderInline(cleanedResult);
-
-  const markdownreplaced = removeStrongTags(markdown);
 
   if (isLoading) {
     return (
       <div className="min-h-screen bg-gray-50 py-8">
-        <div className="max-w-4xl mx-auto">
-          <div className="bg-white shadow-lg border border-gray-200 min-h-screen">
-            <div className="px-12 py-16">
-              <div className="flex items-center justify-center">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
-                <span className="ml-3">Loading...</span>
-              </div>
-            </div>
+        <div className="px-12 py-16">
+          <div className="flex items-center justify-center">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+            <span className="ml-3">Loading...</span>
           </div>
         </div>
       </div>
@@ -49,107 +40,44 @@ const SingleResearch = ({ params }) => {
   if (error) {
     return (
       <div className="min-h-screen bg-gray-50 py-8">
-        <div className="max-w-4xl mx-auto">
-          <div className="bg-white shadow-lg border border-gray-200 min-h-screen">
-            <div className="px-12 py-16">
-              <div className="bg-red-50 border-l-4 border-red-400 p-6 rounded">
-                <div className="flex">
-                  <div className="flex-shrink-0">
-                    <svg
-                      className="h-5 w-5 text-red-400"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                  </div>
-                  <div className="ml-3">
-                    <h3 className="text-sm font-medium text-red-800">Error</h3>
-                    <p className="mt-2 text-sm text-red-700">
-                      An error occurred while fetching the research document.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
+        <div className="px-12 py-16">
+          <div className="flex items-center justify-center">
+            <h3 className="text-sm font-medium text-red-800">Error</h3>
+            <p className="mt-2 text-sm text-red-700">
+              An error occurred while fetching the research document.
+            </p>
           </div>
         </div>
       </div>
     );
   }
 
-  return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-4xl mx-auto">
-        {/* Paper Container */}
-        <div className="bg-white shadow-lg border border-gray-200 min-h-screen">
-          {result?.success && result?.data?.[0] ? (
-            <div className="px-12 py-16">
-              {/* Research Content */}
-              {cleanedResult && (
-                <main className="space-y-8">
-                  <div className="prose prose-lg max-w-none leading-relaxed">
-                    <div className="markdown-body text-gray-800 font-serif text-base leading-7">
-                      <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                        {markdownreplaced}
-                      </ReactMarkdown>
-                    </div>
-                  </div>
-                </main>
-              )}
+  const status = responseData?.data?.[0]?.status || "";
+  const isValid = responseData?.data?.[0]?.isValid || false;
 
-              {/* Footer */}
-              <footer className="mt-16 pt-8 border-t border-gray-300">
-                <div className="text-center">
-                  <div className="text-xs text-gray-500 space-y-2">
-                    <p>© AI Co-Researcher</p>
-                    <p>Note: This work was generated by AI.</p>
+  if (status === "processing") {
+    return <ProcessingCard />;
+  }
 
-                    <p className="font-mono">
-                      Document ID: {result.data[0].researchId}
-                    </p>
-                  </div>
-                </div>
-              </footer>
-            </div>
-          ) : (
-            <div className="px-12 py-16">
-              <div className="bg-red-50 border-l-4 border-red-400 p-6 rounded">
-                <div className="flex">
-                  <div className="flex-shrink-0">
-                    <svg
-                      className="h-5 w-5 text-red-400"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                  </div>
-                  <div className="ml-3">
-                    <h3 className="text-sm font-medium text-red-800">
-                      Research Document Not Found
-                    </h3>
-                    <p className="mt-2 text-sm text-red-700">
-                      No research data found or an error occurred while
-                      retrieving the document.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
-    </div>
-  );
+  if (status === "completed" && !isValid) {
+    return (
+      <ErrorCard
+        title="Invalid Research Description"
+        message="The research description is marked as invalid. Please keep your research topic related to Healthcare or Medicine or Pharmaceutical domain"
+      />
+    );
+  }
+
+  // Clean the markdown responseData if it exists
+  let cleanedResult = responseData?.data?.[0]?.result
+    ? cleanMarkdownString(responseData.data[0].result)
+    : "";
+
+  const markdown = md.renderInline(cleanedResult);
+
+  const markdownreplaced = removeStrongTags(markdown);
+
+  return <ResultMarkdown markdownContent={markdownreplaced} researchId={id} />;
 };
 
 export default SingleResearch;
