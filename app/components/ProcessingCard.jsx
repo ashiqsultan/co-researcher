@@ -32,9 +32,29 @@ const ProcessingCard = () => {
       </div>
 
       <div className="text-center mt-4">
-        <p className="text-xs text-gray-500">
-          This may take a few minutes, check back in a while
+        <p className="text-sm text-gray-500">
+          This process may take approximately 5–10 minutes. Please check back
+          shortly using the same URL.
         </p>
+        <div className="relative mt-4">
+          <div
+            onClick={() => {
+              navigator.clipboard.writeText(window.location.href);
+              const tooltip = document.getElementById("copy-tooltip");
+              tooltip.classList.remove("hidden");
+              setTimeout(() => tooltip.classList.add("hidden"), 2000);
+            }}
+            className="text-blue-500 hover:text-blue-700 underline font-mono text-xs cursor-pointer inline-block"
+          >
+            {window.location.href}
+          </div>
+          <div
+            id="copy-tooltip"
+            className="hidden absolute -top-8 left-1/2 transform -translate-x-1/2 px-2 py-1 bg-gray-900 text-white text-xs rounded shadow-lg"
+          >
+            Copied!
+          </div>
+        </div>
       </div>
     </div>
   );

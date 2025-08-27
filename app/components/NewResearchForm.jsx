@@ -1,8 +1,10 @@
 "use client";
 import { useRef, useState } from "react";
 import { IconSearch } from "@tabler/icons-react";
+import { useRouter } from "next/navigation";
 
 export default function NewResearchForm() {
+  const router = useRouter();
   const researchDescriptionRef = useRef("");
   const [validationError, setValidationError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -52,9 +54,10 @@ export default function NewResearchForm() {
 
       if (data.success) {
         console.log("Research submitted successfully:", data.message);
-        // TODO: Navigate to results page or show success message
-        researchDescriptionRef.current = ""; // Clear the form
-        setValidationError(""); // Clear any validation errors
+        researchDescriptionRef.current = "";
+        e.target.reset();
+        // Navigate to the research details page
+        router.push(`/research/${data.researchId}`);
       } else {
         console.error("Failed to submit research:", data.message);
       }
