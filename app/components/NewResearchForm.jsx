@@ -11,7 +11,7 @@ export default function NewResearchForm() {
 
   const validateDescription = (description) => {
     if (description.length < 100) {
-      return "Research Description must be at least 100 characters long";
+      return "Research Description must be detailed, should be at least 100 characters long";
     }
     if (description.length > 1000) {
       return "Description cannot be more than 1000 characters long";
@@ -108,7 +108,7 @@ export default function NewResearchForm() {
             disabled={isSubmitting}
             className={`px-8 py-3 rounded-lg font-medium transition-all duration-200 shadow-lg transform ${
               !isSubmitting
-                ? "bg-gradient-to-r from-teal-600 to-sky-600 text-white hover:from-teal-700 hover:to-sky-700 hover:shadow-xl hover:-translate-y-0.5"
+                ? "bg-teal-600  text-white hover:from-teal-700 hover:to-sky-700 hover:shadow-xl hover:-translate-y-0.5"
                 : "bg-gray-300 text-gray-500 cursor-not-allowed"
             }`}
           >
