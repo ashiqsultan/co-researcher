@@ -10,17 +10,11 @@ export default function Home() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Hero Section */}
         <div className="text-center mb-16">
-          <div className="flex justify-center mb-6">
-            <div className="p-4 bg-gradient-to-r from-teal-600 to-sky-600 rounded-full">
-              <IconFlask className="h-12 w-12 text-white" />
-            </div>
-          </div>
           <h2 className="text-4xl font-bold text-gray-900 mb-4">
             Accelerate Your Research with AI
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Describe your research topic and let our AI make comprehensive
-            analysis, providing you with detailed insights.
+            Describe your research topic and our AI agent will gather data in real-time, delivering comprehensive analysis with actionable insights.
           </p>
         </div>
 

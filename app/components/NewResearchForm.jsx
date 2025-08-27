@@ -75,10 +75,6 @@ export default function NewResearchForm() {
 
   return (
     <div className="max-w-4xl mx-auto">
-      <h3 className="text-2xl font-semibold text-gray-900 mb-6 flex items-center">
-        <IconSearch className="h-6 w-6 text-teal-600 mr-3" />
-        What you want to research ?
-      </h3>
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="relative">
           {/* Gradient shadow background */}
