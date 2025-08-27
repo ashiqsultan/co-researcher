@@ -31,34 +31,7 @@ export default function RootLayout({ children }) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {/* Header */}
-        <header className="bg-white shadow-sm border-b border-gray-200">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex justify-between items-center py-6">
-              <Link
-                href="/"
-                className="flex items-center space-x-3 hover:opacity-80 transition-opacity"
-              >
-                <div className="p-2 bg-gradient-to-r from-teal-600 to-sky-600 rounded-lg">
-                  <IconMicroscope className="h-8 w-8 text-white" />
-                </div>
-                <div>
-                  <h1 className="text-2xl font-bold text-gray-900">
-                    Co-Researcher
-                  </h1>
-                  <p className="text-sm text-gray-600">
-                    Smarter Web Research, Powered by AI
-                  </p>
-                </div>
-              </Link>
-              <div className="flex items-center space-x-4">
-                <IconSchema className="h-6 w-6 text-teal-600" />
-                <span className="text-sm font-medium text-gray-700">
-                  TODO Link to n8n Workflow docs
-                </span>
-              </div>
-            </div>
-          </div>
-        </header>
+        <Header />
         {children}
         <Footer />
       </body>
@@ -66,9 +39,47 @@ export default function RootLayout({ children }) {
   );
 }
 
+function Header() {
+  <header className="bg-white shadow-sm border-b border-gray-200">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="flex justify-between items-center py-6">
+        <div>
+          <Link
+            href="/"
+            className="flex items-center space-x-3 hover:opacity-80 transition-opacity"
+          >
+            <div className="p-2 bg-gradient-to-r from-teal-600 to-sky-600 rounded-lg">
+              <IconMicroscope className="h-8 w-8 text-white" />
+            </div>
+            <div>
+              <h1 className="text-2xl font-bold text-gray-900">
+                Co-Researcher
+              </h1>
+              <p className="text-sm text-gray-600">
+                Smarter Web Research, Powered by AI
+              </p>
+            </div>
+          </Link>
+        </div>
+        <div className="flex items-center space-x-8">
+          <Link href="/research" className="text-gray-700 hover:text-gray-900">
+            <div>All</div>
+          </Link>
+          <div className="flex items-center space-x-4">
+            <IconSchema className="h-6 w-6 text-teal-600" />
+            <span className="text-sm font-medium text-gray-700">
+              TODO N8N Link
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>;
+}
+
 function Footer() {
   return (
-    <footer className="bg-gray-900 text-white mt-20">
+    <footer className="bg-gray-900 text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="text-center">
           <div className="flex justify-center mb-4">
