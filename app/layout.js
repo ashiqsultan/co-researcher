@@ -5,6 +5,7 @@ import {
   IconMicroscope,
   IconSchema,
 } from "@tabler/icons-react";
+import Link from "next/link";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -33,7 +34,10 @@ export default function RootLayout({ children }) {
         <header className="bg-white shadow-sm border-b border-gray-200">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex justify-between items-center py-6">
-              <div className="flex items-center space-x-3">
+              <Link
+                href="/"
+                className="flex items-center space-x-3 hover:opacity-80 transition-opacity"
+              >
                 <div className="p-2 bg-gradient-to-r from-teal-600 to-sky-600 rounded-lg">
                   <IconMicroscope className="h-8 w-8 text-white" />
                 </div>
@@ -45,7 +49,7 @@ export default function RootLayout({ children }) {
                     Smarter Web Research, Powered by AI
                   </p>
                 </div>
-              </div>
+              </Link>
               <div className="flex items-center space-x-4">
                 <IconSchema className="h-6 w-6 text-teal-600" />
                 <span className="text-sm font-medium text-gray-700">
@@ -69,7 +73,9 @@ function Footer() {
         <div className="text-center">
           <div className="flex justify-center mb-4">
             <div className="p-2 bg-gradient-to-r from-teal-600 to-sky-600 rounded-lg">
-              <IconMicroscope className="h-6 w-6 text-white" />
+              <Link href="/" className="hover:opacity-80 transition-opacity">
+                <IconMicroscope className="h-6 w-6 text-white" />
+              </Link>
             </div>
           </div>
           <p className="text-gray-400">
