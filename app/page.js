@@ -1,5 +1,5 @@
 "use client";
-import { IconMicroscope, IconFlask, IconBrain } from "@tabler/icons-react";
+import { IconMicroscope, IconFlask, IconSchema } from "@tabler/icons-react";
 import RecentResearch from "./components/RecentResearch";
 import NewResearchForm from "./components/NewResearchForm";
 
@@ -24,9 +24,10 @@ export default function Home() {
               </div>
             </div>
             <div className="flex items-center space-x-4">
-              <IconBrain className="h-6 w-6 text-teal-600" />
+              <IconSchema className="h-6 w-6 text-teal-600" />
               <span className="text-sm font-medium text-gray-700">
-                Pharma & Biotech
+                TODO
+                Link to n8n Workflow docs
               </span>
             </div>
           </div>
