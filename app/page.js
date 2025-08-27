@@ -26,8 +26,7 @@ export default function Home() {
             <div className="flex items-center space-x-4">
               <IconSchema className="h-6 w-6 text-teal-600" />
               <span className="text-sm font-medium text-gray-700">
-                TODO
-                Link to n8n Workflow docs
+                TODO Link to n8n Workflow docs
               </span>
             </div>
           </div>
@@ -47,16 +46,16 @@ export default function Home() {
             Accelerate Your Research with AI
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Describe your research topic and let our AI technology conduct
-            comprehensive analysis, providing you with detailed insights and
-            findings in the pharmaceutical and biotechnology fields.
+            Describe your research topic and let our AI make comprehensive
+            analysis, providing you with detailed insights.
           </p>
         </div>
 
         <NewResearchForm />
 
-        {/* Previous Research Section */}
-        <RecentResearch />
+        <div className="mt-20">
+          <RecentResearch />
+        </div>
       </main>
     </div>
   );
