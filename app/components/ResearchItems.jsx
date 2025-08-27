@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { format, parseISO } from "date-fns";
+import { formatCreatedAt } from "../utils/formatCreatedAt";
 
 export default function ResearchItem({ research }) {
   return (
@@ -12,7 +12,7 @@ export default function ResearchItem({ research }) {
           {research.description}
         </p>
         <div className="flex items-center justify-between text-xs text-gray-500">
-          <span>{format(parseISO(research.createdAt), "MMM d, yyyy")}</span>
+          <span>{formatCreatedAt(research.createdAt)}</span>
         </div>
       </div>
     </Link>

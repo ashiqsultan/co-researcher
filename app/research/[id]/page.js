@@ -7,6 +7,7 @@ import useApiQuery from "../../hooks/useApiQuery";
 import ResultMarkdown from "../../components/ResultMarkdown";
 import ErrorCard from "../../components/ErrorCard";
 import ProcessingCard from "../../components/ProcessingCard.jsx";
+import { formatCreatedAt } from "../../utils/formatCreatedAt";
 
 function removeStrongTags(text) {
   // Replace both opening and closing <strong> tags with empty strings
@@ -54,6 +55,8 @@ const SingleResearch = ({ params }) => {
 
   const status = responseData?.data?.[0]?.status || "";
   const isValid = responseData?.data?.[0]?.isValid || false;
+  const description = responseData?.data?.[0]?.description || "";
+  const createdAt = responseData?.data?.[0]?.createdAt || "";
 
   if (status === "processing") {
     return <ProcessingCard />;
@@ -72,7 +75,30 @@ const SingleResearch = ({ params }) => {
 
   const markdownreplaced = removeStrongTags(markdown);
 
-  return <ResultMarkdown markdownContent={markdownreplaced} researchId={id} />;
+  return (
+    <div className="min-h-screen bg-gray-50 py-8">
+      <div className="max-w-4xl mx-auto">
+        <div className="bg-white shadow rounded-lg p-6 mb-2">
+          <h3 className="text-lg font-bold text-gray-900 mb-2">
+            Research Description
+          </h3>
+          <p className="text-gray-600">{description}</p>
+
+          <div className="flex justify-between items-start mt-3">
+            <span
+              className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border bg-green-100 text-green-800 border-green-200`}
+            >
+              {status}
+            </span>
+            <span className="text-sm text-gray-500">
+              {formatCreatedAt(createdAt)}
+            </span>
+          </div>
+        </div>
+        <ResultMarkdown markdownContent={markdownreplaced} researchId={id} />
+      </div>
+    </div>
+  );
 };
 
 export default SingleResearch;
