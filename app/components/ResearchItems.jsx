@@ -8,9 +8,9 @@ export default function ResearchItem({ research }) {
         <h4 className="text-lg font-semibold text-gray-900 mb-2 line-clamp-2">
           {research.title || "No Title"}
         </h4>
-        {/* <p className="text-gray-600 text-sm mb-4 line-clamp-3">
+        <p className="text-gray-600 text-sm mb-4 line-clamp-3">
           {research.description}
-        </p> */}
+        </p>
         <div className="flex items-center justify-between text-xs text-gray-500">
           <span>{format(parseISO(research.createdAt), "MMM d, yyyy")}</span>
         </div>
