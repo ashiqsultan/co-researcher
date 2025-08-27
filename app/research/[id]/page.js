@@ -60,12 +60,7 @@ const SingleResearch = ({ params }) => {
   }
 
   if (status === "completed" && !isValid) {
-    return (
-      <ErrorCard
-        title="Invalid Research Description"
-        message="The research description is marked as invalid. Please keep your research topic related to Healthcare or Medicine or Pharmaceutical domain"
-      />
-    );
+    return <ErrorCard />;
   }
 
   // Clean the markdown responseData if it exists
