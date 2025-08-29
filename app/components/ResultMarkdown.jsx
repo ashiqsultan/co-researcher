@@ -3,7 +3,7 @@ import remarkGfm from "remark-gfm";
 
 const ResultMarkdown = ({ markdownContent, researchId }) => {
   return (
-    <div className="bg-white shadow-lg border border-gray-200 min-h-screen">
+    <div className="bg-white shadow-lg border border-gray-200 min-h-screen rounded-lg">
       <div className="px-12 py-16">
         {/* Research Content */}
         <main className="space-y-8">
