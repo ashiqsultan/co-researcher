@@ -1,0 +1,1038 @@
+{
+  "name": "ai-co-researcher-multiple-agents",
+  "nodes": [
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1f0a0bcb-f8b7-4a23-be7f-d062eb850664",
+              "name": "title",
+              "value": "={{ $json.output.title }}",
+              "type": "string"
+            },
+            {
+              "id": "27544b66-8899-4372-b47b-133153233293",
+              "name": "result",
+              "value": "={{ $json.output.result }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "c98df403-51ca-4203-a254-7c40989ef1e1",
+      "name": "Format Research Results",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3952,
+        -656
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a6649c31-608e-48e8-8272-f2790e0556e6",
+              "name": "researchId",
+              "value": "={{ $json.body.researchId }}",
+              "type": "string"
+            },
+            {
+              "id": "5929a44c-1c87-40c4-87d9-708373aefe15",
+              "name": "researchDescription",
+              "value": "={{ $json.body.researchDescription }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1696,
+        -576
+      ],
+      "id": "ed409394-0263-44e1-abdc-e3d473dbf502",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "89a762ee-d3ba-43c9-b6b5-e9b74ed637d8",
+              "leftValue": "={{ $json.isResearchQuestion }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        2496,
+        -576
+      ],
+      "id": "2ba713ab-2a24-4ffa-9587-0e0d35178ad2",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "new-research-created",
+        "authentication": "headerAuth",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        1472,
+        -576
+      ],
+      "id": "1f753d5d-1a6b-4759-8bc3-cd8047a05e63",
+      "name": "Webhook",
+      "webhookId": "4b84dad8-648a-4d6e-856f-b687e08e401f",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "aR0aGziIgEHAX4Vq",
+          "name": "Header Auth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const jsonStr = $input.first().json.content.parts[0].text\nconst obj = JSON.parse(jsonStr);\nreturn obj\n\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2272,
+        -576
+      ],
+      "id": "1196b754-c514-4a88-830c-6cf6e1cbe701",
+      "name": "Pharse gemini output to JSON"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "base": {
+          "__rl": true,
+          "value": "appi3yUWs2ImoeWm2",
+          "mode": "list",
+          "cachedResultName": "coresearcher",
+          "cachedResultUrl": "https://airtable.com/appi3yUWs2ImoeWm2"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tbltdM1dzFX2q9eHO",
+          "mode": "list",
+          "cachedResultName": "research-table",
+          "cachedResultUrl": "https://airtable.com/appi3yUWs2ImoeWm2/tbltdM1dzFX2q9eHO"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "isValid": true,
+            "researchId": "={{ $('Combine Summaries').item.json.researchId }}",
+            "status": "completed",
+            "result": "={{ $json.output.result }}",
+            "title": "={{ $json.output.title }}"
+          },
+          "matchingColumns": [
+            "researchId"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": false
+            },
+            {
+              "id": "researchId",
+              "displayName": "researchId",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "description",
+              "displayName": "description",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "result",
+              "displayName": "result",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "createdAt",
+              "displayName": "createdAt",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            },
+            {
+              "id": "isValid",
+              "displayName": "isValid",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "boolean",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "title",
+              "displayName": "title",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        4144,
+        -656
+      ],
+      "id": "6dd76fd2-9b40-4266-a52f-f1e8b359aa70",
+      "name": "Update Result",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "Q6ciyRLDNy2YryYK",
+          "name": "Airtable account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.5-flash",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.5-flash"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=Research Description: {{ $json.researchDescription }}"
+            }
+          ]
+        },
+        "jsonOutput": true,
+        "options": {
+          "systemMessage": "You are a classifier model and you need to check whether the user message is a valid research question. \nThe research description should be only related to Pharmaceutical or biology or medical or biopharma field only.\n\nThe output must be in JSON in this format \n{\"isResearchQuestion\": boolean}"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1,
+      "position": [
+        1920,
+        -576
+      ],
+      "id": "2cd68514-ce47-4983-9dbb-c923c29fe7d3",
+      "name": "Is Valid Research",
+      "alwaysOutputData": false,
+      "credentials": {
+        "googlePalmApi": {
+          "id": "D5Ql45vROl0DA0BB",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "base": {
+          "__rl": true,
+          "value": "appi3yUWs2ImoeWm2",
+          "mode": "list",
+          "cachedResultName": "coresearcher",
+          "cachedResultUrl": "https://airtable.com/appi3yUWs2ImoeWm2"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tbltdM1dzFX2q9eHO",
+          "mode": "list",
+          "cachedResultName": "research-table",
+          "cachedResultUrl": "https://airtable.com/appi3yUWs2ImoeWm2/tbltdM1dzFX2q9eHO"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "isValid": false,
+            "researchId": "={{ $('Edit Fields').item.json.researchId }}",
+            "status": "completed"
+          },
+          "matchingColumns": [
+            "researchId"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            },
+            {
+              "id": "researchId",
+              "displayName": "researchId",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "description",
+              "displayName": "description",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "result",
+              "displayName": "result",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "createdAt",
+              "displayName": "createdAt",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            },
+            {
+              "id": "isValid",
+              "displayName": "isValid",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "boolean",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        2496,
+        -336
+      ],
+      "id": "1c7c9397-fd09-4e3d-a87c-44d856ed28e0",
+      "name": "Update Invalid Research",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "Q6ciyRLDNy2YryYK",
+          "name": "Airtable account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('Edit Fields').item.json.researchDescription }}",
+        "options": {
+          "systemMessage": "=You are a senior biomedical expert specializing in clinical trials research. Your task is to analyze the research description provided by the user and research the internet for Clinical Trial information.\n\nNote: this is a one time flow and you cannot ask questions back to the user just proceed with whatever information you have with the Internet search and come up with a summary based on the Internet searches\n\n## Core Process\n\n1. **Generate Search Queries**: Create targeted searches using drug names, medical conditions, patient populations, and therapeutic areas\n2. **Use Internet Search Tool**: You have access to an internet searching tool - use it to search for relevant trials from ClinicalTrials.gov, published studies, and regulatory databases\n3. **Analyze & Synthesize**: Provide comprehensive analysis with actionable insights\n\n## Tools\n- you are provided with your Internet, searching tool.\n- you can use the tool any number of times to search the Internet for required clinical trial information\n- keep the search, text, detailed and descriptive for good results\n\nAdditional COntext\nToday is {{$now}}\n\n## Output instruction\nThe output must be in JSON strictly following the <json-format> given below, even if you didnt find any good result always strictly follow the json-format\n\n<json-format>\n{summary:\"Your research summary (string type)\"\n</json-format>\n\n\n\n\n\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        2784,
+        -976
+      ],
+      "id": "4fdcb2df-3b32-40c1-b049-959c67574867",
+      "name": "Clinical Trial Researcher"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "=ct_{{ $('Edit Fields').item.json.researchId }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        2848,
+        -752
+      ],
+      "id": "9579861b-c687-4bfd-b6e0-413f8f479e3f",
+      "name": "Memory"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-flash-lite",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        2720,
+        -752
+      ],
+      "id": "aa9e4d37-02bd-453d-b075-ea3c1bd4f15b",
+      "name": "Gemini Chat Model1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "D5Ql45vROl0DA0BB",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n\t\"title\": \"Clear, descriptive research title\",\n\t\"result\":\"Complete analysis in markdown-formatted string\"\n}",
+        "autoFix": true
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        3840,
+        -352
+      ],
+      "id": "e9559710-b953-4032-8b7b-f2a7120a7774",
+      "name": "Structured Output Parser1"
+    },
+    {
+      "parameters": {
+        "description": "Call this tool to search the Internet. Required input searchtext.",
+        "workflowId": {
+          "__rl": true,
+          "value": "v84Ae4hds9oWfYGC",
+          "mode": "list",
+          "cachedResultName": "agent-brightdata-google-ai-search"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "searchtext": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('searchtext', ``, 'string') }}"
+          },
+          "matchingColumns": [
+            "searchtext"
+          ],
+          "schema": [
+            {
+              "id": "searchtext",
+              "displayName": "searchtext",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        3712,
+        -352
+      ],
+      "id": "2f7b6b48-2f81-4e71-b920-37e41c41c196",
+      "name": "Brightdata AI Search1"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-flash-lite",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        3456,
+        -352
+      ],
+      "id": "92fc3e46-7a31-49c4-ac44-742558e112ee",
+      "name": "Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "D5Ql45vROl0DA0BB",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "Call this tool to search the Internet. Required input searchtext.",
+        "workflowId": {
+          "__rl": true,
+          "value": "v84Ae4hds9oWfYGC",
+          "mode": "list",
+          "cachedResultName": "agent-brightdata-google-ai-search"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "searchtext": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('searchtext', ``, 'string') }}"
+          },
+          "matchingColumns": [
+            "searchtext"
+          ],
+          "schema": [
+            {
+              "id": "searchtext",
+              "displayName": "searchtext",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        2976,
+        -64
+      ],
+      "id": "e82ffd78-f4e3-406d-82aa-954b4a74372c",
+      "name": "Brightdata AI Search2"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "=literature_{{ $('Edit Fields').item.json.researchId }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        2848,
+        -64
+      ],
+      "id": "3c930711-b243-4eb9-9223-95c0fb16fc3e",
+      "name": "Memory2"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-flash-lite",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        2720,
+        -64
+      ],
+      "id": "6b59b23c-9c68-4081-88b8-e36278e233c5",
+      "name": "Gemini Chat Model2",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "D5Ql45vROl0DA0BB",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('Edit Fields').item.json.researchDescription }}",
+        "options": {
+          "systemMessage": "=You are a senior biomedical literature expert specializing in pharmaceutical, biotechnology, and molecular biology research. Your task is to analyze research descriptions and conduct comprehensive literature searches to identify relevant biological targets, drug compounds, and mechanistic pathways.\n\n## Core Process\n\n1. **Generate Search Queries**: Create targeted searches using gene names, protein targets, drug compounds, disease mechanisms, and biological pathways\n2. **Use Internet Search Tool**: You have access to an internet searching tool - use it to search for peer-reviewed literature from PubMed, bioRxiv, Nature, Science, Cell Press, and other authoritative scientific databases\n3. **Analyze & Synthesize**: Provide comprehensive analysis focusing on the biology triangle (genes → proteins → drugs) with actionable molecular insights\n\n## Required Analysis Elements To include in search text\n- **Gene Targets**: Specific genes involved, genomic loci, variants, expression patterns, regulatory mechanisms\n- **Protein Analysis**: Target proteins, protein families, structural features, binding sites, protein-protein interactions\n- **Drug Compounds**: Lead compounds, mechanism of action, pharmacokinetics, structure-activity relationships\n- **Biological Pathways**: Signaling cascades, metabolic pathways, regulatory networks, downstream effects\n- **Disease Mechanisms**: Pathophysiology, molecular basis, biomarkers, therapeutic vulnerabilities\n- **Research Landscape**: Key research groups, recent breakthroughs, emerging technologies, publication trends\n\n## Search Strategy\n- **Use the Internet Search Tool**: You must utilize the provided internet searching tool atleast once \n- You can use the search tool only once so keep the search text detailed and long, look for the following in search\n  - Gene symbols/names (HUGO nomenclature and aliases)\n  - Protein names (UniProt IDs, common names, family classifications)\n  - Drug compound names (INN, trade names, research codes, chemical identifiers)\n  - Disease terms (ICD codes, medical terminology, pathway names)\n  - Biological processes (GO terms, KEGG pathways, molecular functions)\n- Include synonyms, alternative nomenclature, and cross-species terminology\n- Search recent publications (last 2-5 years prioritized), landmark studies, and review articles\n- Target high-impact journals and cite DOIs, PMIDs, and author information\n\n## Focus Areas for Literature Mining\n\n- **Target Identification**: Novel therapeutic targets, druggability assessments, target validation studies\n- **Drug Discovery**: Hit identification, lead optimization, structure-based drug design, pharmacology\n- **Mechanism of Action**: Molecular mechanisms, signaling pathways, cellular effects, systems biology\n- **Biomarkers**: Predictive, prognostic, and pharmacodynamic biomarkers\n- **Translational Research**: Preclinical to clinical translation, model systems, proof-of-concept studies\n- **Technology Platforms**: CRISPR, proteomics, genomics, structural biology, computational approaches\n\n\n## Output instruction\nThe output must be in JSON strictly following the <json-format> given below, even if you didnt find any good result always strictly follow the json-format\n\n<json-format>\n{summary:\"Your research summary (string type)\"\n</json-format>"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        2784,
+        -288
+      ],
+      "id": "9d069392-314e-4047-a3be-d5b39c1586fe",
+      "name": "Literature Researcher1"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=USER RESEARCH DESCRIPTION\n{{ $json.researchDescription }}\n-----------\nRESEARCH SUMMARIES\n{{ $json.combined_summary }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=You are an expert in the domain of Pharmaceutical and Medical Science. Your job is to create an organized Research Summary for scientists.\n\nIn the user message you will be provided with two things\n1. Actual Research description \n2. Summaries generated by other agents on Clinical Trial\n3. Summaries generated by other agents on Literatures\n\nYou need to deeply analyse the summaries and generate a insights and next steps\n\n\n## Safety Assessment\nUse the internet search tool in order to search the Internet regarding the safety of the analysis you have concluded.\nMake sure you search the Internet multiple times in order to get accurate data\nYou can make Internet search on specific requirements like toxicity, patient safety, adverse events etc.\n\n## Required properties in Output\n- `title` should be in string (Title for the research)\n- `result` should be in string but the string should be a valid markdown\n\n## Output result Requirements\nDeliver research findings in a structured format including:\n1. Executive summary of key findings\n2. Detailed analysis organized by research domains\n3. Supporting evidence with proper citations\n4. Identification of knowledge gaps or areas requiring further investigation\n5. Recommendations for next steps if applicable\n6. Safety Assessments\n\n## Tools\nYou are provided with a Internet search tool to search the Internet you can use the search only once so keep the search text descriptive in order to make really good analysis.\n\n## Important Output instruction\nThe Title must be a simple string and The result must be in Markdown string. In the output json there is a 'result' property make sure the result property is in Markdown string. The Markdown can contain multiple headings and links if any as required\n\n\nToday date and time {{ $now }}"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        3568,
+        -576
+      ],
+      "id": "1f614c85-7990-41a5-87c5-ce354a1c2477",
+      "name": "Safety and Critic"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        3184,
+        -576
+      ],
+      "id": "20687b4e-1e1c-4ead-85a8-fea439b8490f",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get all items from the input\nconst items = $input.all();\n\n// Extract summaries from both objects\nconst clinicalTrialsSummary = JSON.stringify($('Clinical Trial Researcher').first());\nconst literatureSummary = JSON.stringify($('Literature Researcher1').first())\n\nconst combined_summary = `Clinical Trials Summary \n${clinicalTrialsSummary}\n----------\nLiterature Summary\n${literatureSummary}\n`\n\nconst researchId = $('Edit Fields').first().json.researchId\nconst researchDescription = $('Edit Fields').first().json.researchDescription\nreturn [{ json: { researchId,researchDescription ,combined_summary} }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3312,
+        -576
+      ],
+      "id": "5ec05a47-1514-4646-bb06-7b37eed92562",
+      "name": "Combine Summaries"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "=safety_{{ $('Combine Summaries').item.json.researchId }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        3584,
+        -352
+      ],
+      "id": "6696aa43-50a2-45d7-9f12-75390227fe2e",
+      "name": "memory3"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        3920,
+        -144
+      ],
+      "id": "12c20184-274e-4e25-9e57-e2db4d90a18e",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "D5Ql45vROl0DA0BB",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "Call this tool to search the Internet. Required input searchtext.",
+        "workflowId": {
+          "__rl": true,
+          "value": "v84Ae4hds9oWfYGC",
+          "mode": "list",
+          "cachedResultName": "agent-brightdata-google-ai-search"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "searchtext": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('searchtext', ``, 'string') }}"
+          },
+          "matchingColumns": [
+            "searchtext"
+          ],
+          "schema": [
+            {
+              "id": "searchtext",
+              "displayName": "searchtext",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        2976,
+        -752
+      ],
+      "id": "a136a7be-414b-44f1-ba1e-5342a223689b",
+      "name": "Brightdata AI Search"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Is Valid Research",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Clinical Trial Researcher",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Literature Researcher1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Update Invalid Research",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pharse gemini output to JSON": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Research Results": {
+      "main": [
+        [
+          {
+            "node": "Update Result",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Valid Research": {
+      "main": [
+        [
+          {
+            "node": "Pharse gemini output to JSON",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "Clinical Trial Researcher",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gemini Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Clinical Trial Researcher",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser1": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Safety and Critic",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Brightdata AI Search1": {
+      "ai_tool": [
+        [
+          {
+            "node": "Safety and Critic",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Safety and Critic",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Brightdata AI Search2": {
+      "ai_tool": [
+        [
+          {
+            "node": "Literature Researcher1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Memory2": {
+      "ai_memory": [
+        [
+          {
+            "node": "Literature Researcher1",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gemini Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Literature Researcher1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Clinical Trial Researcher": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Literature Researcher1": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Combine Summaries",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Safety and Critic": {
+      "main": [
+        [
+          {
+            "node": "Format Research Results",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Combine Summaries": {
+      "main": [
+        [
+          {
+            "node": "Safety and Critic",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "memory3": {
+      "ai_memory": [
+        [
+          {
+            "node": "Safety and Critic",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Structured Output Parser1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Brightdata AI Search": {
+      "ai_tool": [
+        [
+          {
+            "node": "Clinical Trial Researcher",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "fd2e161d-2c72-4811-b999-42549fb98806",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "7a50123ee668039cf2baec58cee8d9796c0185da473f02ec9993cba295b34f85"
+  },
+  "id": "2wrN9vSmQt5I5SP3",
+  "tags": []
+}

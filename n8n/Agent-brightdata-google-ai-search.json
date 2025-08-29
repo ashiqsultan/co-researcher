@@ -1,0 +1,302 @@
+{
+  "name": "Agent-brightdata-google-ai-search",
+  "nodes": [
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.brightdata.com/datasets/v3/trigger",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "brightdataApi",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "dataset_id",
+              "value": "gd_mcswdt6z2elth3zqr2"
+            },
+            {
+              "name": "include_errors",
+              "value": "true"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "=[\n  {\n    \"url\": \"https://google.com/aimode\",\n    \"prompt\": \"{{ $('When Executed by Another Workflow').item.json.searchtext }}\",\n    \"country\": \"US\"\n  }\n]",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        432,
+        544
+      ],
+      "id": "c63d8874-698e-4ccc-a513-3bdb9fc45b9e",
+      "name": "Google AI Search",
+      "credentials": {
+        "brightdataApi": {
+          "id": "BEzLk9tYIwYifoBe",
+          "name": "BrightData account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "webScrapper",
+        "operation": "downloadSnapshot",
+        "snapshot_id": "={{ $json.snapshot_id }}",
+        "requestOptions": {}
+      },
+      "type": "@brightdata/n8n-nodes-brightdata.brightData",
+      "typeVersion": 1,
+      "position": [
+        1104,
+        416
+      ],
+      "id": "151c9162-3ebb-4774-9264-7221758f831b",
+      "name": "Download the snapshot content",
+      "credentials": {
+        "brightdataApi": {
+          "id": "BEzLk9tYIwYifoBe",
+          "name": "BrightData account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1104,
+        640
+      ],
+      "id": "c5498b3e-12c4-4c2e-9834-ab8510b6b69b",
+      "name": "Wait",
+      "webhookId": "b87a1a09-3582-492f-98c8-3c0a054d7526"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "a81e6f1b-05aa-47cd-9684-8510bfa4748a",
+              "leftValue": "={{ $json.status }}",
+              "rightValue": "ready",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        880,
+        464
+      ],
+      "id": "79f81211-b539-48e0-af0d-fcdde9dc96ab",
+      "name": "Check is ready"
+    },
+    {
+      "parameters": {
+        "resource": "webScrapper",
+        "operation": "monitorProgressSnapshot",
+        "snapshot_id": "={{ $json.snapshot_id }}",
+        "requestOptions": {}
+      },
+      "type": "@brightdata/n8n-nodes-brightdata.brightData",
+      "typeVersion": 1,
+      "position": [
+        656,
+        544
+      ],
+      "id": "2bbae7a1-bab2-46ab-a5e1-f6d6514a9dee",
+      "name": "Check snapshot status",
+      "credentials": {
+        "brightdataApi": {
+          "id": "BEzLk9tYIwYifoBe",
+          "name": "BrightData account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "webScrapper",
+        "operation": "__CUSTOM_API_CALL__",
+        "requestOptions": {}
+      },
+      "type": "@brightdata/n8n-nodes-brightdata.brightData",
+      "typeVersion": 1,
+      "position": [
+        208,
+        544
+      ],
+      "id": "3ec3a4fb-8e95-4013-ad4f-965bce8686a5",
+      "name": "webScrapper Google AI Search",
+      "credentials": {
+        "brightdataApi": {
+          "id": "BEzLk9tYIwYifoBe",
+          "name": "BrightData account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "searchtext"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -16,
+        544
+      ],
+      "id": "00ab225a-e980-4550-8223-f9c9b06599f1",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d7fe486f-f958-4cc3-950a-befb7eeee9b1",
+              "name": "answer_text",
+              "value": "={{ $json.answer_text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1328,
+        416
+      ],
+      "id": "59d21b6a-dabc-41d7-a5bc-6877a1519e5d",
+      "name": "Edit Fields"
+    }
+  ],
+  "pinData": {
+    "When Executed by Another Workflow": [
+      {
+        "json": {
+          "searchtext": "What are the genes involved in oncology recently"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Google AI Search": {
+      "main": [
+        [
+          {
+            "node": "Check snapshot status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Check snapshot status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check is ready": {
+      "main": [
+        [
+          {
+            "node": "Download the snapshot content",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check snapshot status": {
+      "main": [
+        [
+          {
+            "node": "Check is ready",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "webScrapper Google AI Search": {
+      "main": [
+        [
+          {
+            "node": "Google AI Search",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "webScrapper Google AI Search",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download the snapshot content": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "ee3a1147-1cb3-4d2f-a6bd-f0742d3d270d",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "7a50123ee668039cf2baec58cee8d9796c0185da473f02ec9993cba295b34f85"
+  },
+  "id": "v84Ae4hds9oWfYGC",
+  "tags": []
+}
